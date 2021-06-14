@@ -51,49 +51,38 @@ const tokyoCookie = {
   '7pm': getRandom(3, 24),
   getCookie: function() {
     console.log(this.cookie);
-    this.cookie = `${getRandom(23, 65)} cookies`;
+    this.cookie = `${getRandom (3, 24)} cookies`;
     console.log(this.cookie);
   }
 };
-// CONTEXTUAL THIS!!!! 
-// The one I am talking about now, THIS ONE
 
-// const jumper = {
-//   name: 'Jumper',
-//   age: 0,
-//   interests: ['treats', 'yarn', 'birds'],
-//   isGoodWithOtherCats: true,
-//   isGoodWithKids: true,
-//   isGoodWithDogs: true,
-//   photo: './images/jumper.jpeg',
-//   getCookie: function() {
-//     // console.log(this.age);
-//     this.age = getRandom(3,12) + ' months';
-//     // console.log(this.age);
-//   }
-// };
-
-
-// const serena = {
-//   name: 'Serena',
-//   age: 0,
-//   interests: ['pets', 'scratches', 'hissing'],
-//   isGoodWithOtherCats: false,
-//   isGoodWithKids: false,
-//   isGoodWithDogs: false,
-//   photo: './images/serena.jpeg',
-//   getCookie: function() {
-//     // console.log(this.age);
-//     this.age = getRandom(3,12) + ' months';
-//     // console.log(this.age);
-//   }
-// };
+const dubaiCookie = {
+  '6am': getRandom(11, 24),
+  '7am': getRandom(11, 24),
+  '8am': getRandom(11, 24),
+  '9am': getRandom(11, 24),
+  '10am': getRandom(11, 24),
+  '11am': getRandom(11, 24),
+  '12pm': getRandom(11, 24),
+  '1pm': getRandom(11, 24),
+  '2pm': getRandom(11, 24),
+  '3pm': getRandom(11, 24),
+  '4pm': getRandom(11, 24),
+  '5pm': getRandom(11, 24),
+  '6pm': getRandom(11, 24),
+  '7pm': getRandom(11, 24),
+  getCookie: function() {
+    console.log(this.cookie);
+    this.cookie = `${getRandom(11, 24)} cookies`;
+    console.log(this.cookie);
+  }
+};
 
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-let cookieArray = [seattleCookie];
+let cookieArray = [seattleCookie, tokyoCookie, dubaiCookie];
 console.log(cookieArray);
 
 
