@@ -79,19 +79,49 @@ function renderHeader (){
     cellElem1.textContent = cityHours[i]
   }
 
-
 }
-
-function renderSeattle (){
-  const rowElem2 = document.createElement("tr")
+function renderSeattle(){
+  const rowElem2=document.createElement("tr")
   tableElem.appendChild(rowElem2)
-  for (let i = 1; i < CookieStores.prototype.cookieArray.length; i++){
-    let cellElem2 = document.createElement("td")
-    rowElem2.appendChild(cellElem2)
-    cellElem2.textContent = CookieStores.prototype.cookieArray[i]
-    console.log(renderSeattle)
+   for (let i = 0; i < CookieStores.prototype.renderCookieStores.length; i++){
+     let cellElem2 = document.createElement("th")
+     rowElem2.appendChild(cellElem2)
+
+   }
+
   }
-}
+
+
+
+
+
+// ---------------------------this is for reference -------------------//
+// const tableElem = document.createElement('table');
+//   articleElem.appendChild(tableElem);
+//   const row1 = document.createElement('tr');
+//   const row2 = document.createElement('tr');
+//   tableElem.appendChild(row1);
+//   tableElem.appendChild(row2);
+//   const row1Cell1Elem = document.createElement('th');
+//   row1Cell1Elem.textContent = 'Good with Dogs';
+//   row1.appendChild(row1Cell1Elem);
+//   const row1Cell2Elem = document.createElement('th');
+//   row1Cell2Elem.textContent = 'Good with Cats';
+//   row1.appendChild(row1Cell2Elem);
+//   const row1Cell3Elem = document.createElement('th');
+//   row1Cell3Elem.textContent = 'Good with Kids';
+//   row1.appendChild(row1Cell3Elem);
+
+//   const row2Cell1Elem = document.createElement('td');
+//   row2Cell1Elem.textContent = this.isGoodWithDogs;
+//   row2.appendChild(row2Cell1Elem);
+//   const row2Cell2Elem = document.createElement('td');
+//   row2Cell2Elem.textContent = this.isGoodWithCats;
+//   row2.appendChild(row2Cell2Elem);
+//   const row2Cell3Elem = document.createElement('td');
+//   row2Cell3Elem.textContent = this.isGoodWithKids;
+//   row2.appendChild(row2Cell3Elem);
+
 
 
 
@@ -121,4 +151,3 @@ console.log('this is the cookie array', CookieStores.prototype.cookieArray),
 renderTheWholeCookieStores()
 CookieStores.prototype.getCustomer()
 renderHeader()
-renderSeattle()
