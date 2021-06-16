@@ -150,111 +150,161 @@ Kitten.prototype.renderKitten = function() {
 </tr>
 </table>
   */
-  const articleElem = document.createElement('article');
-  // parent.appendChild(childElement)
-  // if I don't append it, it exists in memory but we haven't added it to the screen
-  kittenProfilesDivElem.appendChild(articleElem);
-  // ANYTIME we need to create a single element we do this
-  const imgElem = document.createElement('img');
-  imgElem.src = this.photo;
-  articleElem.appendChild(imgElem);
-  const h2Elem = document.createElement('h2');
-  h2Elem.textContent = this.name;
-  articleElem.appendChild(h2Elem);
-  const pElem = document.createElement('p');
-  pElem.textContent = `age: ${this.age} old`;
-  articleElem.appendChild(pElem);
-  // we need to make our ul and append it to the article
-  // within the up we need to create new li's for each interest in our array
-  const ulElem = document.createElement('ul');
-  articleElem.appendChild(ulElem);
-  // kitten.interests is my array name
-  for (let i = 0; i < this.interests.length; i++) {
-    const liElem = document.createElement('li');
-    liElem.textContent = this.interests[i];
-    ulElem.appendChild(liElem)
-  }
-  // create table - parent is article
-  // the table is going to have 2 rows - parent is table
-  // each row is going to have 3 cells - parent to the cells is tr
-  // first row all cells will be th
-  // second row all cells will be td
 
-  const tableElem = document.createElement('table');
-  articleElem.appendChild(tableElem);
-  const row1 = document.createElement('tr');
-  const row2 = document.createElement('tr');
-  tableElem.appendChild(row1);
-  tableElem.appendChild(row2);
-  const row1Cell1Elem = document.createElement('th');
-  row1Cell1Elem.textContent = 'Good with Dogs';
-  row1.appendChild(row1Cell1Elem);
-  const row1Cell2Elem = document.createElement('th');
-  row1Cell2Elem.textContent = 'Good with Cats';
-  row1.appendChild(row1Cell2Elem);
-  const row1Cell3Elem = document.createElement('th');
-  row1Cell3Elem.textContent = 'Good with Kids';
-  row1.appendChild(row1Cell3Elem);
 
-  const row2Cell1Elem = document.createElement('td');
-  row2Cell1Elem.textContent = this.isGoodWithDogs;
-  row2.appendChild(row2Cell1Elem);
-  const row2Cell2Elem = document.createElement('td');
-  row2Cell2Elem.textContent = this.isGoodWithCats;
-  row2.appendChild(row2Cell2Elem);
-  const row2Cell3Elem = document.createElement('td');
-  row2Cell3Elem.textContent = this.isGoodWithKids;
-  row2.appendChild(row2Cell3Elem);
+'use strict';
 
+// - global variables -//
+// all of the targets for our page
+const hoursOfOperation = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
+
+const salesTableElem = document.getElementById('salesInfo');
+const theadElem = document.createElement('thead');
+salesTableElem.appendChild(theadElem);
+const tbodyElem = document.createElement('tbody');
+salesTableElem.appendChild(tbodyElem);
+const tfootElem = document.createElement('tfoot');
+salesTableElem.appendChild(tfootElem);
+
+// - constructor for the cookie stores - //
+
+function CookieStore(location, minCust, maxCust, avgCookieSales) {
+  this.location = location;
+  this.minCust = minCust;
+  this.maxCust = maxCust;
+  this.avgCookieSales = avgCookieSales;
+
+  // optionally push here, that is ok
 }
 
+let seattle =  new CookieStore('Seattle', 23, 65, 6.3);
+let tokyo = new CookieStore('Tokyo', 3, 24, 1.2);
+let dubai = new CookieStore('Dubai', 11, 38, 3.7);
+let paris = new CookieStore('Paris', 20, 38, 2.3);
+let lima = new CookieStore('Lima', 2, 16, 4.6);
 
+CookieStore.prototype.stores = [];
+CookieStore.prototype.stores.push(seattle, tokyo, dubai, paris, lima);
 
-//------------------ global function -----------------//
-// add any regular functions I might need
-  // render all kittens
-function renderTheWholeKittenCaboodle() {
-  for (let i = 0; i < Kitten.prototype.kittenArray.length; i++) {
-    let currentKitten = Kitten.prototype.kittenArray[i];
-    currentKitten.getAge();
-    currentKitten.renderKitten();
+// - prototype methods - //
+
+// determine an avg cust number
+CookieStore.prototype.custPerHour = function() {
+  return Math.floor(Math.random() * (this.maxCust - this.minCust) + this.minCust);
+}
+// create sales array
+CookieStore.prototype.createSalesArray = function() {
+  this.hourlySales = [];
+  for (let i = 0; i < hoursOfOperation.length; i++) {
+    let sale = Math.floor(this.custPerHour() * this.avgCookieSales);
+    this.hourlySales.push(sale);
   }
 }
 
+// render one stores row
+CookieStore.prototype.renderStoreRow = function() {
+  // access the body tbodyElem - parent
+  // make a variable to hold the daily totals
+  let dailyTotal = 0;
+  // create a row
+  const rowElem = document.createElement('tr');
+  // append the row to the parent
+  tbodyElem.appendChild(rowElem);
+  // make th for location
+  const locationThElem = document.createElement('th');
+  locationThElem.textContent = this.location;
+  rowElem.appendChild(locationThElem)
+  // iterate through this.hourlySales to add td to my row
+  for (let i = 0; i < this.hourlySales.length; i++) {
+    dailyTotal += this.hourlySales[i];
+    const tdElem = document.createElement('td');
+    tdElem.textContent = this.hourlySales[i];
+    rowElem.appendChild(tdElem);
+  }
+  // add up all the sales for the day and put them in a final cell for totals
+  const tdElemTotal = document.createElement('td');
+  tdElemTotal.textContent = dailyTotal
+  rowElem.appendChild(tdElemTotal);
+}
 
 
+// - global functions - //
+
+function updateStoresWithSales(stores) {
+  for (let i = 0; i < stores.length; i++) {
+    stores[i].createSalesArray();
+  }
+}
+
+// puts the header up - hours of operation
+function renderHeader() {
+  //theadElem -parent
+  // make a row to go in my thead
+  const rowElem = document.createElement('tr');
+  theadElem.appendChild(rowElem);
+  // a blank cell
+  const blankThElem = document.createElement('th');
+  rowElem.appendChild(blankThElem);
+  // iterate through my hours of operation and add th's for each hour
+  for (let i = 0; i < hoursOfOperation.length; i++) {
+    const thElem = document.createElement('th');
+    thElem.textContent = hoursOfOperation[i];
+    rowElem.appendChild(thElem);
+  }
+  const thElemTotals = document.createElement('th');
+    thElemTotals.textContent = 'Totals'
+    rowElem.appendChild(thElemTotals);
+}
 
 
-//------------------ declare Kittens -----------------//
-// declare kittens
-  // jumper, serena, frankie
-const frankie = new Kitten('frankie', ['mice', 'scratching', 'meowing'], false, true, false, './images/frankie.jpeg');
-// we call the function, it makes a new Kitten instance and puts it in the kitten array
-const serena = new Kitten('serena', ['sitting on laps', 'climbing curtains', 'eating treats'], true, null, true, './images/serena.jpeg');
-// we call the function, it makes a new Kitten instance and puts it in the kitten array
-const jumper = new Kitten('jumper', ['sunbeams', 'yarn', 'milk', 'paper bags'], false, true, true, './images/jumper.jpeg');
-// we call the function, it makes a new Kitten instance and puts it in the kitten array
-// frankie.getAge();
-// frankie.renderKitten();
+// make a function calls render on all of the store rows
+function renderAllStoreRows(stores) {
+  for (let i = 0; i < stores.length; i++) {
+    stores[i].renderStoreRow();
+    // seattle.renderStoreRow()
+  }
+}
 
-// Kitten.prototype.kittenArray.push(new Kitten('frankie', 0, ['mice', 'scratching', 'meowing'], false, true, false, './images/frankie.jpeg');)
+// renders a footer
+function createFooter() {
+  // access the footer elem tfootElem parent
+  // variable for hourly total
+  let hourlyTotal = 0;
+  // variable for all hours total
+  let grandTotal = 0;
+  // I make tr for the data to go to and append to footer
+  const rowElem = document.createElement('tr');
+  tfootElem.appendChild(rowElem);
+  // I need to look at every hour of the day
+  //--
+  for (let i = 0; i < hoursOfOperation.length; i++) {
+  // for each hour of the day I need to look at the sales for each store AT THAT HOUR
+  //--
+    for (let j = 0; j < CookieStore.prototype.stores.length; j++) {
+      // let timeOfSale = .hourlySales[i];
+      // let currentStore = CookieStore.prototype.stores[j];
+      let currentStoreAtCurrentHour = CookieStore.prototype.stores[j].hourlySales[i];
+      hourlyTotal += currentStoreAtCurrentHour;
+    }
+  // add a th for every hourly total
+  // reset the hourly total to 0
+  //---
+  const hourlyThElem = document.createElement('th');
+  hourlyThElem.textContent = hourlyTotal;
+  rowElem.appendChild(hourlyThElem);
+  grandTotal += hourlyTotal;
+  hourlyTotal = 0;
+  }
+  // add a th for the grand total
+  const grandThElem = document.createElement('th');
+  grandThElem.textContent = grandTotal;
+  rowElem.appendChild(grandThElem);
+}
 
-// put in an array *
-// call all my functions
-console.log('this is the kitten array', Kitten.prototype.kittenArray);
+// - call our functions - //
 
-
-
-
-//------------------ call function -----------------//
-renderTheWholeKittenCaboodle();
-
-
-
-// make a function that does couple things "build a cat" {
-// pass in arguments 
-// call new Kitten with arguments
-// put the kitten in the array
-// call get age
-// call render
-// }
+updateStoresWithSales(CookieStore.prototype.stores);
+console.log(CookieStore.prototype.stores);
+renderHeader();
+renderAllStoreRows(CookieStore.prototype.stores);
+createFooter();
