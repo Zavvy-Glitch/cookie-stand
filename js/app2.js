@@ -1,47 +1,17 @@
 'use strict';
 
 console.log('hello')
-const tableElem = document.getElementById("table")
-
-//------------------ global function -----------------//
-
-function renderTheWholeCookieStores() {
-  for (let i = 0; i < CookieStores.prototype.cookieArray.length; i++) {
-    let currentCookieStores = CookieStores.prototype.cookieArray[i];
-    currentCookieStores.getCustomer();
-    currentCookieStores.renderCookieStores();
-  }
-}
-
-// ----------------------------- functions from previous JS -----------------------//
-
-// CookieStores.prototype.getCustomer = function avgCookieNumbers(avgCookie, customerCount) {
-//   return Math.round(avgCookie * customerCount);
-// }
-
-// CookieStores.prototype.getCustomer = function gethourSales() {
-//   for (let i = 0; i < cityHours.length; i++) {
-//     let hourCust = randomCustomer(this.minCust, object.MaxCust);
-//     let avgCookieHour = cookieNumbers (this.avgCookie, hourCust);
-//     this.hourSales = (avgCookieHour);
-//   }
-// }
-// -----------------------------------------------------------------------------------------//
-
-
-//------------ calls function from above and multiplies that by average cookie number (push into array hourlyCookieSales)---------//
-
-const cityHours = ['6am', '7am', '8am', '9am', '10am', '11am', '12am', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
-
 
 //------------------ Global Variable for whole doc -----------------//
+const cityHours = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00am', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm'];
 
 const cookiesProfilesDivElem = document.getElementById('salmonCookieSales');
-
-
-
-// create a constructor function for Cookie Stores
-
+const theadElement = document.createElement('thead');
+cookiesProfilesDivElem.appendChild(theadElement);
+const tbodyElement = document.createElement('tbody');
+cookiesProfilesDivElem.appendChild(tbodyElement);
+const tfootElement = document.createElement('tfoot');
+cookiesProfilesDivElem.appendChild(tfootElement);
 
 
 //------------------ Constructor function -----------------//
@@ -50,112 +20,125 @@ function CookieStores(location, minCust, maxCust, avgCookiesPerHour) {
   this.minCust = minCust;
   this.maxCust = maxCust;
   this.avgCookiesPerHour = avgCookiesPerHour;
-  this.hourlyCookieSales = []
-  console.log('this', this);
-  
-  this.cookieArray.push(this);
-  
-  // console.log('this is the current version of the array', this.cookieArray);
+  this.hourlyCookiesSales = [];
+    
 }
 
+console.log(CookieStores);
 
-CookieStores.prototype.cookieArray = [];
+const Seattle = new CookieStores('Seattle', 23, 65, 6.3);
+const Tokyo = new CookieStores('Tokyo', 3, 24, 1.2);
+const Dubai = new CookieStores('Dubai', 11, 38, 3.7);
+const Paris = new CookieStores('Paris', 20, 38, 2.3);
+const Lima = new CookieStores('Lima', 2, 16, 4.6);
 
+
+CookieStores.prototype.stores = [];
+CookieStores.prototype.stores.push(Seattle, Tokyo, Dubai, Paris, Lima)
+
+console.log(CookieStores.prototype.stores);
 
 //------------------ Prototype Methods, only usable by CookieStores -----------------//
 
 CookieStores.prototype.getCustomer = function() {
-  this.customer = Math.floor(Math.random() * (this.maxCust - this.minCust) + this.minCust);
+  return Math.floor(Math.random() * (this.maxCust - this.minCust) + this.minCust);
 };
 
+CookieStores.prototype.avgCookiesSalesArray = function () {
+  for (let i = 0; i < cityHours.length; i++) {
+    let sale = Math.floor(this.getCustomer() * this.avgCookiesPerHour);
+    this.hourlyCookiesSales.push(sale);
+  }
+  console.log(this.hourlyCookiesSales);
+}
 
+console.log(CookieStores.prototype.avgCookiesSalesArray)
+//------------------ global function -----------------//
 
+function pushAllCookieStores(stores) {
+  // console.log(stores);
+  for (let i = 0; i < stores.length; i++) {
+    // console.log('here')
+    stores[i].avgCookiesSalesArray();
+  }
+}
 
+console.log(pushAllCookieStores)
 
 //---------------------------- start of table rendering ----------------------------//
 
-function renderHeader (){
-  const rowElem1 = document.createElement("tr")
-  tableElem.appendChild(rowElem1)
+function headerRendering (){
+  const rowElement = document.createElement ('tr')
+  const emptyElem = document.createElement('th')
+  rowElement.appendChild(emptyElem);
   for (let i = 0; i < cityHours.length; i++){
-    let cellElem1 = document.createElement("td")
-    rowElem1.appendChild(cellElem1)
-    cellElem1.textContent = cityHours[i]
+    const thElement = document.createElement('th');
+    thElement.textContent = cityHours[i];
+    rowElement.appendChild(thElement);
   }
+  const theElementTotal = document.createElement('th');
+  theElementTotal.textContent = 'Totals'
+  rowElement.appendChild(theElementTotal);
+  theadElement.appendChild(rowElement);
   
 }
 
-
-CookieStores.prototype.renderCookieStores = function() { 
-  const rowElem1 = document.createElement("tr")
-  tableElem.appendChild(rowElem1)
-  let cell1 = document.createElement("th")
-  cell1.textContent = this.location
-  rowElem1.appendChild(cell1)
-  for (let i = 0; i < this.hourlyCookieSales.length; i++){
- // ----- create element "td" ---- 
-  // --------------- append rowElem1 ------
-  // -----------text context = sales location hourlyCookieSalesArray from above ------------
-}
+function storeRowRenderingsAll(stores) {
+  for (let i = 0; i < stores.length; i++){
+    stores[i].storeRowRendering();
+  }
 }
 
+function footerRender(){
+  // let cityHours = 0;
+  let grandTotals = 0;
+  const rowElement = document.createElement('tr')
+  const emptyElem = document.createElement('th')
+  emptyElem.textContent = 'Total'
+  rowElement.appendChild(emptyElem);
+  for (let i = 0; i < cityHours.length; i++) {
+    let hourTotal = 0;
+    for (let j = 0; j < CookieStores.prototype.stores.length; j++){
+      let currentStoreHours = CookieStores.prototype.stores[j].hourlyCookiesSales[i];
+      hourTotal += currentStoreHours; 
+    }
+    const hourlyElem = document.createElement('th');
+    hourlyElem.textContent = hourTotal;
+    grandTotals += hourTotal;
+    rowElement.appendChild(hourlyElem);
+  }
 
+  const grandElem = document.createElement('th');
+  grandElem.textContent = grandTotals;
+  rowElement.appendChild(grandElem);
+  tfootElement.appendChild(rowElement);
+}
 
+CookieStores.prototype.storeRowRendering =function() {
+  let dailyTotal = 0;
+  const rowElement = document.createElement('tr')
+  const locationElement = document.createElement('th')
+  locationElement.textContent = this.location;
+  rowElement.appendChild(locationElement);
+  console.log(this.hourlyCookiesSales)
+  for (let i = 0; i < this.hourlyCookiesSales.length; i++){
+    dailyTotal += this.hourlyCookiesSales[i];
+    const tdElement = document.createElement('td');
+    tdElement.textContent = this.hourlyCookiesSales[i];
+    rowElement.appendChild(tdElement);
+  }
 
-// ---------------------------this is for reference -------------------//
-// const tableElem = document.createElement('table');
-//   articleElem.appendChild(tableElem);
-//   const row1 = document.createElement('tr');
-//   const row2 = document.createElement('tr');
-//   tableElem.appendChild(row1);
-//   tableElem.appendChild(row2);
-//   const row1Cell1Elem = document.createElement('th');
-//   row1Cell1Elem.textContent = 'Good with Dogs';
-//   row1.appendChild(row1Cell1Elem);
-//   const row1Cell2Elem = document.createElement('th');
-//   row1Cell2Elem.textContent = 'Good with Cats';
-//   row1.appendChild(row1Cell2Elem);
-//   const row1Cell3Elem = document.createElement('th');
-//   row1Cell3Elem.textContent = 'Good with Kids';
-//   row1.appendChild(row1Cell3Elem);
-
-//   const row2Cell1Elem = document.createElement('td');
-//   row2Cell1Elem.textContent = this.isGoodWithDogs;
-//   row2.appendChild(row2Cell1Elem);
-//   const row2Cell2Elem = document.createElement('td');
-//   row2Cell2Elem.textContent = this.isGoodWithCats;
-//   row2.appendChild(row2Cell2Elem);
-//   const row2Cell3Elem = document.createElement('td');
-//   row2Cell3Elem.textContent = this.isGoodWithKids;
-//   row2.appendChild(row2Cell3Elem);
-
-
-
-
-
-//------------------ declare CookieStores -----------------//
-
-const Seattle = new CookieStores('Seattle', 23, 65, 6.3);
-
-const Tokyo = new CookieStores('Tokyo', 3, 24, 1.2);
-
-const Dubai = new CookieStores('Dubai', 11, 38, 3.7);
-
-const Paris = new CookieStores('Paris', 20, 38, 2.3);
-
-const Lima = new CookieStores('Lima', 2, 16, 4.6);
-
-// CookieStores.prototype.cookieArray.push(new CookieStores(Seattle, 23, 65, 6.3)),
-
-// put in an array *
-// call all my functions
-console.log('this is the cookie array', CookieStores.prototype.cookieArray),
-
-
+  const tdElementTotal = document.createElement('td');
+  tdElementTotal.textContent = dailyTotal
+  rowElement.appendChild(tdElementTotal);
+  tbodyElement.appendChild(rowElement);
+}
 
 
 //------------------ call function -----------------//
 // renderTheWholeCookieStores()
-CookieStores.prototype.getCustomer()
-renderHeader()
-Seattle.renderCookieStores()
+pushAllCookieStores(CookieStores.prototype.stores);
+console.log(CookieStores.prototype.stores);
+storeRowRenderingsAll(CookieStores.prototype.stores);
+headerRendering();
+footerRender();
