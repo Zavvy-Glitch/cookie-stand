@@ -15,17 +15,21 @@ function renderTheWholeCookieStores() {
 
 // ----------------------------- functions from previous JS -----------------------//
 
-CookieStores.prototype.getCustomer = function avgCookieNumbers(avgCookie, customerCount) {
-  return Math.round(avgCookie * customerCount);
-}
+// CookieStores.prototype.getCustomer = function avgCookieNumbers(avgCookie, customerCount) {
+//   return Math.round(avgCookie * customerCount);
+// }
 
-CookieStores.prototype.getCustomer = function gethourSales(object) {
-  for (let i = 0; i < cityHours.length; i++) {
-    let hourCust = randomCustomer(object.minCust, object.MaxCust);
-    let avgCookieHour = cookieNumbers (object.avgCookie, hourCust);
-    object.hourSales = (avgCookieHour);
-  }
-}
+// CookieStores.prototype.getCustomer = function gethourSales() {
+//   for (let i = 0; i < cityHours.length; i++) {
+//     let hourCust = randomCustomer(this.minCust, object.MaxCust);
+//     let avgCookieHour = cookieNumbers (this.avgCookie, hourCust);
+//     this.hourSales = (avgCookieHour);
+//   }
+// }
+// -----------------------------------------------------------------------------------------//
+
+
+//------------ calls function from above and multiplies that by average cookie number (push into array hourlyCookieSales)---------//
 
 const cityHours = ['6am', '7am', '8am', '9am', '10am', '11am', '12am', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 
@@ -46,11 +50,11 @@ function CookieStores(location, minCust, maxCust, avgCookiesPerHour) {
   this.minCust = minCust;
   this.maxCust = maxCust;
   this.avgCookiesPerHour = avgCookiesPerHour;
-
+  this.hourlyCookieSales = []
   console.log('this', this);
-
+  
   this.cookieArray.push(this);
-
+  
   // console.log('this is the current version of the array', this.cookieArray);
 }
 
@@ -61,12 +65,12 @@ CookieStores.prototype.cookieArray = [];
 //------------------ Prototype Methods, only usable by CookieStores -----------------//
 
 CookieStores.prototype.getCustomer = function() {
-  this.customer = `${Math.floor(Math.random() * (this.maxCust - this.minCust) + this.minCust)} customers`;
+  this.customer = Math.floor(Math.random() * (this.maxCust - this.minCust) + this.minCust);
 };
 
-CookieStores.prototype.renderCookieStores = function() { 
-   
-}
+
+
+
 
 //---------------------------- start of table rendering ----------------------------//
 
@@ -78,19 +82,22 @@ function renderHeader (){
     rowElem1.appendChild(cellElem1)
     cellElem1.textContent = cityHours[i]
   }
-
+  
 }
-function renderSeattle(){
-  const rowElem2=document.createElement("tr")
-  tableElem.appendChild(rowElem2)
-   for (let i = 0; i < CookieStores.prototype.renderCookieStores.length; i++){
-     let cellElem2 = document.createElement("th")
-     rowElem2.appendChild(cellElem2)
 
-   }
 
-  }
-
+CookieStores.prototype.renderCookieStores = function() { 
+  const rowElem1 = document.createElement("tr")
+  tableElem.appendChild(rowElem1)
+  let cell1 = document.createElement("th")
+  cell1.textContent = this.location
+  rowElem1.appendChild(cell1)
+  for (let i = 0; i < this.hourlyCookieSales.length; i++){
+ // ----- create element "td" ---- 
+  // --------------- append rowElem1 ------
+  // -----------text context = sales location hourlyCookieSalesArray from above ------------
+}
+}
 
 
 
@@ -148,6 +155,7 @@ console.log('this is the cookie array', CookieStores.prototype.cookieArray),
 
 
 //------------------ call function -----------------//
-renderTheWholeCookieStores()
+// renderTheWholeCookieStores()
 CookieStores.prototype.getCustomer()
 renderHeader()
+Seattle.renderCookieStores()
