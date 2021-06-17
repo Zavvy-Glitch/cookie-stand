@@ -8,14 +8,36 @@
     <header>
       <h1>Salmon Cookies</h1>
     </header>
-    <main>
-      <h2>Sales Data</h2>
+    
+    <!-- Start of form -->
+        <h2>Add New Store Here</h2>
+      <form id="addNewStore">
+        <fieldset>
+          <legend>General Information</legend>
+        <label>Location
+          <input type="text" name="location">
+        </label>
+        <label>Minimum Hourly Customer
+          <input type="number" name="minCust">
+        </label>
+        <label>Maximum Hourly Customer
+          <input type="number" name="maxCust">
+        </label>
+        <label>Average Cookies Per Hour
+          <input type="number" step=".01" name="avgCookiesPerHour">
+        </label>     
+        </fieldset>
+        <button type="submit">Submit Store</button>
+      </form>
+
+
+        <h2>Sales Data</h2>
       <div id="salmonCookieSales">
         <!-- generate this from js: -->
         <table id="table">
-         
+        <tfoot id="tfoot"></tfoot>
         </table>
-      </div>
+     
     </main>
     <footer>
     </footer>
