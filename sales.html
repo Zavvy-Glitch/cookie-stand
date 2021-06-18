@@ -2,14 +2,18 @@
 <html>
   <head>
     <title>Sales</title>
-    <!-- <link href="css/styles.css" type="text/css" rel="stylesheet"/> -->
+    <link href="css/reset.css" type"reset/css" rel="reset"/>
+    <link href="css/style2.css" type="text/css" rel="stylesheet"/>
   </head>
   <body>
+    <img src="img/salmon.png" rel="chinook">
     <header>
       <h1>Salmon Cookies</h1>
     </header>
-    
+    <a href="index.html">Home Page</a>
+    <main>
     <!-- Start of form -->
+      
         <h2>Add New Store Here</h2>
       <form id="addNewStore">
         <fieldset>
@@ -30,14 +34,14 @@
         <button type="submit">Submit Store</button>
       </form>
 
-
-        <h2>Sales Data</h2>
-      <div id="salmonCookieSales">
+      <h2>Sales Data</h2>
+      <section>
+      <div id="salmonCookieSales"></div>
         <!-- generate this from js: -->
         <table id="table">
         <tfoot id="tfoot"></tfoot>
         </table>
-     
+     </section>
     </main>
     <footer>
     </footer>
